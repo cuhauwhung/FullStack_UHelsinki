@@ -1,6 +1,6 @@
-# U_Helsinki_FullStack
+# Uni. of Helsinki FullStack Open
 
-University of Helsinki's Online [FullStack Mooc](https://fullstackopen.com/en/about/)
+Repo contains code and notes from University of Helsinki's Online [FullStack Mooc](https://fullstackopen.com/en/about/)
 
 Course covers: 
 - [x] Fudamentals of Web apps
