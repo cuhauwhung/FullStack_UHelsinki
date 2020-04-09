@@ -27,11 +27,19 @@ a Rendering a collection, modules
 
     Notes:  
         - following are the same: 
-        
+
         const total = parts.map(x => x.exercises).reduce((s, p) => {return s + p}, 0)
         const total = parts.reduce(function(s, p) { return s + p.exercises}, 0)
 
 b Forms
+    - can use forms to add onto the web apps component's state 
+    - can access data contained in the form's input element by using controlled components
+        - in some cases, we have to use event.preventDefault() method to prevent the default action of submitting a form; default action would cause page to reload
+        - we not only have to set the input value, but also have to add on to the onChange section, which updates the state according to the input 
+            - in order to enable editing of input element, we have to register an event handler that synchronizes the changes made to the input with the component's state 
+    - one line if-else statement with ? is similar to C++
+
+
 c Getting data from server
 d Altering data in server
 e Adding styles to React app
