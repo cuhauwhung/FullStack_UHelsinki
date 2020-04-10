@@ -1,6 +1,9 @@
 ------
 Part 2
 ------
+
+NOTES: when writing components: have to use PascalCasing
+
 a Rendering a collection, modules
 
     - Use map function to insert our <li> <\li>  
@@ -41,5 +44,36 @@ b Forms
 
 
 c Getting data from server
+
+    - we have only been working on front-end client-side (browse) functionality now we have to familiarize how this connects with the backend
+    - can use a tool called JSON server to act as our server 
+
+    - browser as a runtime environment 
+        - can fetch object using XMLHttpRequest - HTTP request made using an XHR object [event-driven model](not recommended)
+        - browsers widely support the fetch method, which is based on so-called promises 
+            - promise: eventual completion (or failure) of an asynchronous operation and its resulting value 
+        - JavaScript engines, or runtime environments, follow the async model. Requires all IO-operations to be executed as non-blocking 
+            - code execution continues immediately after calling an IO function, without waiting for it to return 
+            - JavaScript is single-threaded 
+            - We can run parallelized code with the help of web workers, but the event loop of an individual browser window is still single threaded 
+
+    - npm 
+        - use *axios* library for communication between browser and server 
+        - we have to modify the package.json file so that we can run the json-server from the project root directory automatically without having having to issue parameters
+        - npm install * --save-dev used for assistance during software development 
+
+    - axios and promises 
+        - JSON server is assumed to be running on port 3001 
+        - axios method get returned a promise: 
+            pending: final value is not available yet 
+            fulfilled: operation has completed and the final value is available
+            rejected: means that an error prevented the final value from being determined 
+
+    - Effect-hooks
+        - The Effect Hook lets you perform side effects in function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
+        - axios.get initiates the fetching of data fom server as well as registers the following function as an event handler for the operation
+        - use effect takes in two parameters: the function itself and the frequency of the effect 
+            - if second param is empty then effect is only run along with the first render of the component 
+
 d Altering data in server
 e Adding styles to React app
