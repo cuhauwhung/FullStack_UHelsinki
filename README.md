@@ -25,5 +25,3 @@ Course covers:
 - [ ] GraphQL 
 - [ ] Typsecript
 
-Notes: 
-Repo excludes node_modules/  
