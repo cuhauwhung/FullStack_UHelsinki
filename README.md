@@ -5,7 +5,7 @@ Repo contains code and notes from University of Helsinki's Online [FullStack Moo
 Course covers: 
 - [x] Fudamentals of Web apps
 - [x] Introduction to React
-- [ ] Communicating with Server
+- [x] Communicating with Server
 - [ ] Programming a Server with NodeJS and Express 
 - [ ] Testing Express Servers, User Administration
 - [ ] Testing React Apps 
