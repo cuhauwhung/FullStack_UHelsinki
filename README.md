@@ -18,6 +18,10 @@ Course covers:
   * Altering data in server
   * Adding styles to React app
 - [ ] Programming a Server with NodeJS and Express 
+  * Node.js and Express
+  * Deploying app to internet
+  * Saving data to MongoDB
+  * Validation and ESLint
 - [ ] Testing Express Servers, User Administration
 - [ ] Testing React Apps 
 - [ ] State Management with Redux 
