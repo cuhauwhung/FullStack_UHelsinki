@@ -1,0 +1,68 @@
+------
+Part 3
+------
+
+a. Node.js and Express
+
+    | Intro |
+    - focus on backend, built on top of NodeJS 
+    - starting an application
+        - npm init to start generates package.json
+        - specify the entry point of our application in package.json
+        - start application by calling node index.js, but its customary for npm projects to execute tasks as npm scripts 
+    - import Node's built-in web server module with: import http from "http"
+        - very cumbersome, so use express instead 
+    - Use express to help with server-side development with node 
+    - versioning model used in npm is called semantic versioning 
+        - The caret in the front of ^4.17.1 means, that if and when the dependencies of a project are updated, the version of express that is installed will be at least 4.17.1
+        - npm update to update all dependencies of the project 
+        - npm install to install all up-to-date dependencies of the project defined in package.json (if we start working in new computer)
+
+    | Web and express | 
+    -  import express and store express application into app 
+    - define "routes" in the application using the app.get(...) method 
+        - event handler function accepts 2 params: request param contains all info regarding the HTTP request, second param is use to define how the request is responded to 
+        - in our example:
+            - first route's request is answered by using the send method of the response object 
+            - second route's request is answered with the json method of the response object 
+
+    - tips: use node-repl to issue CLI for node commands; start by typing node 
+
+    | nodemon |
+    - nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
+    - even if server restarts, we sill have to manually refresh; React has the hot reload functionality that allows automatic refreshing 
+
+    | REST |
+    - stands for representational state transfer and used to build scalable web apps 
+    - we can execute different operations on resources
+        - GET - fetches single resources
+        - POST - creates a new resource based on the request data 
+        - DELETE - removes the identified resource 
+        - PUT - replaces the entire identified resource with the request data 
+
+    | Fetching single resource | 
+    - routing refers to how an application's endpoints URLS, responds to client requests 
+    - define parameters using the colon syntax:
+        - app.get('/api/notes/:id')
+    - have to set with "404 not found" if nothing is retrieved 
+        - variable will automatically set to undefined when nothing is retrieved, which will respond with "200 OK", which is not correct 
+
+    | Deleting resource |
+    -  delete happens by making HTTP DELETE request
+    - if delete is successful, we respond to the request with the status code 204 no content and return no data with the response 
+
+    | Postman / VS Code REST client| 
+    - use Postman tool for testing the application's DELETE features 
+    - VS Code REST Client plugin can also achieve similar results 
+
+    | Receiving data |
+    - adding a note happens by making an HTTP POST request 
+    
+
+
+
+
+
+b. Deploying app to internet
+c. Saving data to MongoDB
+d. Validation and ESLint
