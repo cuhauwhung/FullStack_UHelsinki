@@ -81,3 +81,5 @@ c. Saving data to MongoDB'
         - order of error handling in the code matters significantly. Error handles should go at the end 
 
 d. Validation and ESLint
+    - we can specify validation parameters inside the schema settings from MongoDB 
+    - we can also use unique validator module to make sure that we can't create duplicates in the DB 

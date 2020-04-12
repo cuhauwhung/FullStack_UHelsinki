@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from "./components/Filter";
-import NoteService from "./services/noteService"
-import noteService from "./services/noteService";
+import PersonService from "./services/PersonService"
+import PersonService from "./services/PersonService";
 
 
 const App = () => {
@@ -32,7 +32,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    NoteService.getAll().then(initialPeople => {
+    PersonService.getAll().then(initialPeople => {
       setPersons(initialPeople)
     })
   }, [])
@@ -52,7 +52,7 @@ const App = () => {
         id: newId
       }
 
-      noteService.create(personObj).then(response => {
+      PersonService.create(personObj).then(response => {
         setPersons(persons.concat(personObj))
         setNewName('')
         setNewNum('')
@@ -71,12 +71,12 @@ const App = () => {
 
       if (confirm) {
          
-        noteService.update(new_idx, personObj).then(response => {
+        PersonService.update(new_idx, personObj).then(response => {
           setNewName('')
           setNewNum('')
         })
 
-        NoteService.getAll().then(refreshPeople => {
+        PersonService.getAll().then(refreshPeople => {
           setPersons(refreshPeople)})
         
         console.log(persons)

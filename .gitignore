@@ -4,3 +4,4 @@ public/
 tags 
 static/
 .env 
+build/

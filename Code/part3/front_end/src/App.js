@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import Filter from "./components/Filter";
-import NoteService from "./services/noteService"
-import noteService from "./services/noteService";
-
+import Notification from "./components/Notification"
+import Filter from "./components/Filter"
+import PersonService from "./services/personService"
 
 const App = () => {
 
@@ -13,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNum, setNewNum] = useState('')
   const [newFilter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const listPersons = newFilter
     ? persons.filter(person => person.name.search(newFilter) !== -1)
@@ -32,7 +32,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    NoteService.getAll().then(initialPeople => {
+    PersonService.getAll().then(initialPeople => {
       setPersons(initialPeople)
     })
   }, [])
@@ -45,41 +45,49 @@ const App = () => {
 
     if (idx === -1) {
 
-      const newId = Math.max(persons.map(p => p.id)) + 1 
       const personObj = {
         name: newName,
-        number: newNum,
-        id: newId
+        number: newNum
       }
 
-      noteService.create(personObj).then(response => {
+      PersonService.create(personObj).then(() => {
+
+        console.log("just created")
         setPersons(persons.concat(personObj))
         setNewName('')
         setNewNum('')
+
+      }).catch(error => {
+
+        setErrorMessage(
+          `'${JSON.stringify(error.response.data["error"])}'`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 15000)
+
       })
 
     } else {
 
       var confirm = window.confirm(`${newName} is already added to phonebook, want to replace the old number with a new one`)
-      const new_idx = idx + 1 
-      
+
       const personObj = {
         name: newName,
-        number: newNum, 
-        id: new_idx 
+        number: newNum,
       }
 
       if (confirm) {
-         
-        noteService.update(new_idx, personObj).then(response => {
+
+        const personToUpdate = persons.find(personInArray => personInArray.name === newName)
+        PersonService.update(personToUpdate.id, personObj).then(() => {
           setNewName('')
           setNewNum('')
         })
 
-        NoteService.getAll().then(refreshPeople => {
-          setPersons(refreshPeople)})
-        
-        console.log(persons)
+        PersonService.getAll().then(refreshPeople => {
+          setPersons(refreshPeople)
+        })
 
       }
     }
@@ -87,6 +95,8 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={errorMessage} />
+
       <h2>Phonebook</h2>
       <Filter value={newFilter} handleFilter={handleFilter} />
 
