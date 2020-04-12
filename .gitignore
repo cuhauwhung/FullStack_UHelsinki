@@ -3,3 +3,4 @@ public/
 .DS_STORE
 tags 
 static/
+.env 

@@ -70,8 +70,14 @@ b. Deploying app to internet
 
     | Frontend production build | 
     - Use production build to minify all files into one 
+    - add front-ends "minified" build dir into root of back end, this will then allow us to have a fully production ready full stack server 
+        - we then can run the whole app only using the backend address
 
+c. Saving data to MongoDB' 
+    - MongoDB: document database NoSQL 
+    - stored all CONSTANTS using the dotenv module 
+        - require('dotenv').config($PATH) and PROCESS.ENV.constant to access 
+    - we can pass "next" as a parameter in the route so that if error does appear, it'll be passed onto the error handle middleware 
+        - order of error handling in the code matters significantly. Error handles should go at the end 
 
-
-c. Saving data to MongoDB
 d. Validation and ESLint

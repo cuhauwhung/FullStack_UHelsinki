@@ -1,18 +1,22 @@
+require('dotenv').config('./.env')
+
 const express = require('express')
 const app = express()
-// const morgan = require('morgan')
 const cors = require('cors')
 
 app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
 
-// morgan.token('ret_string', function (req, res) { 
-//     var ret_string = JSON.stringify([req.body.name, req.body.number])
-//     return ret_string
-// })
 
-// app.use(morgan(':method :url :response-time :ret_string'))
+// Traditional DB routes
+const morgan = require('morgan')
+morgan.token('ret_string', function (req, res) { 
+    var ret_string = JSON.stringify([req.body.name, req.body.number])
+    return ret_string
+})
+
+app.use(morgan(':method :url :response-time :ret_string'))
 
 let persons = [
     {
@@ -43,7 +47,6 @@ const generateId = () => {
         : 0
     return maxId + 1
 }
-
 
 app.get('/api/persons', (req, res) => {
     res.json(persons)
@@ -88,7 +91,7 @@ app.post('/api/persons', (req, res) => {
     res.json(person)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
