@@ -4,6 +4,54 @@ Part 4
 a Structure of backend application, introduction to testing
 
     - Project structure 
+        - should look like this:
+            ----------------------
+            ├── index.js
+            ├── app.js
+            ├── build
+            │   ├── ...
+            ├── controllers
+            │   └── notes.js
+            ├── models
+            │   └── note.js
+            ├── package-lock.json
+            ├── package.json
+            ├── utils
+            │   ├── config.js
+            │   ├── logger.js
+            │   └── middleware.js  
+
+        - logger for printing normal log messages and error for all error messages 
+        - handling of environment variables are in the config.js 
+            - import by require('./utils/config')
+        - routes are referred to as controllers 
+            - router object is an isolated instance of middleware and routes. You can think of it as a "mini-application", capable only of performing middleware and routing functions 
+            - when we declare router, we will use relative paths in the RESTful implementation ('/api/notes/:id) -> ('/:id), but in the original we have to define this "root", 
+                - app.use('/api/notes', notesRouter)
+        - middleware moved to utils/middleware.js module 
+        - responsibility of establishing the connections to the DB has been given to the app.js module and where everything connects
+        - ./models/notes.js is the directory that defines the Mongoose schema for notes 
+
+
+    - Testing node applications 
+        - we can use a testing library called JEST - works well for backends, and works well for React apps 
+        - in order to use jest, we have to specify this additional step to the end of package.json or have JEST look for a config file with the default name jes.config.js:
+            {                                               
+            //...
+            "jest": {
+            "testEnvironment": "node"
+                }
+            }
+                        
+            module.exports = {
+            testEnvironment: 'node',
+            };
+
+        - eslint would complain about jester, so we have to set true to the env property in the .eslinrc.js file 
+        - we use describe, test, and expect methods to allow jester to perform its tasks 
+
+        - when we only one to test one case: 
+            - npm test -- -t 'when list has only one blog, equals the likes of that'
 
 b Testing the backend
 c User administration
