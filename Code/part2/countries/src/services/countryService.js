@@ -7,6 +7,6 @@ const getAllCountries = () => {
   req.then(response => {console.log(response)}
   )
   return req.then(res => res.data);
-};
+}
 
 export default { getAllCountries };

@@ -54,5 +54,93 @@ a Structure of backend application, introduction to testing
             - npm test -- -t 'when list has only one blog, equals the likes of that'
 
 b Testing the backend
+    - Test environment 
+        - have to use cross-env to allow cross-environment tests 
+        - use separate database for test and production (defined in the .env file)
+        - modify our package.json so that environment info will be inserted into function, e.g.: 
+
+            "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+            TEST_MONGODB_URI = ... 
+
+            if (process.env.NODE_ENV === 'test') {
+            MONGODB_URI = process.env.TEST_MONGODB_URI
+            }
+
+    - supertest 
+        - helps us write tests for testing the backend API 
+        - tests would take the Express application  and wrap it with the supertest function into a superagent object. 
+            - object is assigned to the API variable and tests can uses it for making HTTP requests to the backend 
+        - use async and await keywords allows to write asynchronous code with the appearance of synchronous code 
+        - close mongoDB connection after all tests are done: 
+
+            afterAll(() => {
+                mongoose.connection.close()
+            })
+
+        - have to add jest.config.js file at the root of the project that specifies the test environment 
+        - test only uses the express application defined in the app.js file 
+        - supertest take care that the application being test is started at the port it uses internally 
+        - using async / await syntax allows us to not have to use callback functions to access the data returned by promises
+
+    - initialize database before tests 
+        - use before eachEach method to initialize database before every test 
+
+    - async / await 
+        - fetching of notes from the DB with promises look like this: 
+            
+            Note.find({}).then(notes => {
+            console.log('operation returned the following notes', notes)
+            })
+
+        Note.find() method returns a promise and we can access the result of the operation by registering a callback function with the then method 
+
+        Code we want to execute once the operation finishes is written in the callback function - making several async function calls will be painful as all the async calls have to be in the callback, which will eventually lead to callback hell 
+
+        Comparisons: 
+            - we can keep chaining callbacks:   
+
+                Note.find({})
+                .then(notes => {
+                    return notes[0].remove()
+                })
+                .then(response => {
+                    console.log('the first note is removed')
+                    // more code here
+                })
+
+            - but using async will make the code significantly cleaner and more understandable: 
+
+                const main = async () => {
+                const notes = await Note.find({})
+                console.log('operation returned the following notes', notes)
+
+                const response = await notes[0].remove()
+                console.log('the first note is removed')
+                }
+
+                main()
+
+    - async / await in backend 
+        -  we can change backend to async / await 
+
+            notesRouter.get('/', async (request, response) => { 
+            const notes = await Note.find({})
+            response.json(notes.map(note => note.toJSON()))
+            })
+
+    - more test and refactoring the backend 
+        - we can have a module that contains helpers for tests 
+        - tests can also use async / await syntax 
+
+    - error handling and async/await 
+        - if there's an exception while handling the POST request, we end up with an unhandled promise rejection, and the request never receives a response 
+        - we use try/catch mechanism to handle these exceptions 
+
+    - eliminating the try-catch 
+        - we can remove the try-catch clutter by using the express-async-errors module, which allow us to eliminate the try-catch blocks completely 
+
+    - optimizing the beforeEach function 
+        - 
+        
 c User administration
 d Token authentication

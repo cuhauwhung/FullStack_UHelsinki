@@ -1,9 +1,11 @@
-GET http://localhost:3000/api/blogs/
+# PUT http://localhost:3001/api/blogs/5e964cc07b1e0127b02cbb76
 # Content-Type: application/json
 
 # {
-#     "title": "willy's journey",
+#     "title": "willy's whatsup",
 #     "author": "cuhauw",
-#     "url": "willy.com",
-#     "likes": 1
+#     "url": "cuhauw.com",
+#     "likes": 100
 # }
+
+GET http://localhost:3001/api/blogs
