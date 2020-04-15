@@ -140,7 +140,51 @@ b Testing the backend
         - we can remove the try-catch clutter by using the express-async-errors module, which allow us to eliminate the try-catch blocks completely 
 
     - optimizing the beforeEach function 
-        - 
-        
+        - we can use promisAll to transform an array of promises into a single promise, that will be fulfilled once every promise in the array passed to it as a parameter is resolved
+
+    - Refactoring tests 
+        - we can refactor tests and use describe to group their functionalities and the purpose of the tests 
+
 c User administration
+    - References across collections 
+        - unlike in relational DBs, NoSQL DBs have more ways of modeling keys 
+            - Moytan2@godaddy.comngo does not support join queries like relational DBs 
+            - you can even store data in users collections 
+    
+    - Mongoose schema for users 
+        - we can make the decision to store the ids of the notes created by the user in the user document itself by defining the user model and having the user schema as: 
+
+        const userSchema = new mongoose.Schema({
+        username: String,
+        name: String,
+        passwordHash: String,
+        notes: [
+            {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Note'
+            }
+        ],
+        })
+
+        - type of field is ObjectId that references "note"-style objects. Mongo does not inherently know that this is a field that references notes - syntax is purely related to and defined by Mongoose 
+
+    - creating users 
+        - we use a new route to create new users : use bycrypt package that uses OWFs to encrypt plaintext passwords in the DB 
+            - we have to define saltRounds as a parameter into bcrypt. Saltrounds == 2^rounds iterations of processing of value 
+        - test-driven development, where tests for new functionality are written before the functionality is implemented 
+        - can use "mongoose-unique-validator" to ensure that DBs have unique values 
+
+    - creating a new note 
+        - we have to expand implementation, so information about the user who created a note is sent in the userId field in the request body 
+        - user object also changes. The id of the note is stored in the notes field
+
+    - Populate 
+        - a join query that allows us to add user info into notes and vice versa 
+        - the database does not actually know that the ids stored in the user field of notes reference documents in tne use collection 
+        - functionality of the populate method of Mongoose is based on the fact that we have defined "types" to the references in the Mongoose schema with the ref option 
+
+
+
+
+
 d Token authentication
