@@ -183,8 +183,24 @@ c User administration
         - the database does not actually know that the ids stored in the user field of notes reference documents in tne use collection 
         - functionality of the populate method of Mongoose is based on the fact that we have defined "types" to the references in the Mongoose schema with the ref option 
 
-
-
-
-
 d Token authentication
+    - Intro 
+        - users must be able to log in and have their info automatically attached to any notes they created 
+        - use JWSONwebtoken module to generate JSON web tokens which allows for log-in functionality 
+        - login functionality should be separated controller/login.js 
+            - takes care of authenticating userID and password 
+            - if password is correct, token is created with the method jwt.sign
+            - token has been digitally signed using a string from the environment variable SECRET as the secret; ensures that the only parties who know the secret can generate a valid token 
+            - successful request is responded with the status code 200OK. The generated token and the username of the user are sent back in the response body
+
+    - limiting creating new notes to logged in users 
+        - creating new notes is only possible if the post request has a valid token attached. Then note is then saved to the notes list of the user identified by the token 
+        - Use authorization header to send token from browser to server - header tells which authentication schema is used 
+            - identifying the schema tells the server how the attached credentials should be interpreted 
+            - use getTokenFrom to isolate the oken from the authorization header
+            - validity of the token is checked with jwt.verify
+            - object decoded from the token contains the username and id fields, which tells the server who made the request 
+            - if no token or the object decoded from the token does not contain the user's identity, return errors status code 401 unauthorized 
+    
+    - error handling 
+        - we have to extend or errorHandle middleware to take into account the different decoding errors that can arise from JsonWebToken
