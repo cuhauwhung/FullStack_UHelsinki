@@ -17,13 +17,21 @@ Course covers:
   * Getting data from server
   * Altering data in server
   * Adding styles to React app
-- [ ] Programming a Server with NodeJS and Express 
+- [x] Programming a Server with NodeJS and Express 
   * Node.js and Express
   * Deploying app to internet
   * Saving data to MongoDB
   * Validation and ESLint
-- [ ] Testing Express Servers, User Administration
+- [x] Testing Express Servers, User Administration
+  * Structure of backend application, introduction to testing
+  * Testing the backend 
+  * User administration
+  * Token authentication 
 - [ ] Testing React Apps 
+  * Login in frontend
+  * Props.children and proptypes
+  * Testing react apps 
+  * End-to-end testing
 - [ ] State Management with Redux 
 - [ ] React Router, Custom Hooks, Styling App with CSS and Webpack
 - [ ] GraphQL 

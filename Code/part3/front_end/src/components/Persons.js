@@ -12,8 +12,6 @@ const Persons = ({ persons, setPersons }) => {
         const confirm = window.confirm(`Do you want to delete ${name}`)
 
         if (confirm) {
-
-
             PersonService.deletePerson(id)
 
                 .then(data =>

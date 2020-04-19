@@ -1,0 +1,38 @@
+------
+Part 5
+------
+a. Login in frontend 
+    - intro 
+        - will implement front end that supports user management functionality 
+        - Logging in is done by sending an HTTP POST request to server address api/login
+            - login success: form fields are emptied and the server response is saved to the user field to the applications state 
+            - login fail: results in an error, the user is notified 
+            - show the login form only if the user is not logged in 
+            - react trick for conditional rendering: 
+                -  
+                    {user === null ?
+                    loginForm() :
+                    noteForm()
+                    }
+
+    - creating new notes 
+        - token returned with successful login is saved to the application state user field token 
+        - we have to fix creating new notes to work with the backend
+            - noteService module would contain a private variable token. It's value can be changed with a function setToken, which is exported by the module 
+            - create, now with async/await syntax, sets the token to the Authorization header 
+
+    - saving the token to browsers local storage 
+        - when pages are rerendered, information of the user's login disappears
+        - use local storage (cache) to save key-value database in the browser 
+        - values in the storage stay even when the page is rerendered. 
+        - storage is origin-specific so each web app has its own storage 
+        - values saved to the storage are DOMstrings, so we cannot save a JavaScript object as is. The object has to be first parsed to JSON with JSON.stringify and then parsed back with JSON.parse
+        - use effecthook to fetch notes from the server to the frontend 
+        - empty array as the parameter of the effect ensures that he effect is executed oly when the component is rendered for the first time 
+        - logging out:
+            - window.localStorage.removeItem('loggedNoteappUser')
+            - window.loclStorage.clear()
+
+b. props.children and proptypes 
+c. Testing react apps 
+d. End to end testing
