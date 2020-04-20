@@ -34,5 +34,32 @@ a. Login in frontend
             - window.loclStorage.clear()
 
 b. props.children and proptypes 
+    - displaying login info form only when appropriate 
+        - use <div style={hideWhenVisible}> to toggle if we should hide / show sections in the component 
+        
+    - props.children 
+        - Toggable component has both opening and closing tags which surround a LoginFom component. In React terminology LoginForm is a child component of Toggable 
+            - we can add any React elements we want between the opening and closing tags of Toggable 
+        - the props.children is the code used for referencing the child components of the component. THe child components are the React elements we define between the opening and closing tag of a component 
+            - children is automatically added by React and always exists. If a component is defined with an automatically closing />, then the props.children is an empty array 
+    
+    - state of the forms 
+        - should life the shared state up to their closest common ancestor 
+        - move the state of hte forms to their corresponding components 
+        - functionality should also be passed as well 
+
+    - references to components with ref 
+        - use the ref keyword which offers a reference to the component
+        - Visibility is controlled with the visible variable inside the Toggable component, but we would want to access it outside of the component 
+        - Function that creates the component is wrapped inside ofa forwardRef function call, allowing the component to access the ref that is assigned to it 
+        - component uses the useImperativeHandle hook to make its toggleVisibility function available outside of the component
+        - we can now hide the form by calling notFormRef.current.toggleVisibility() after a new note has been created 
+
+    - one point about components 
+        - when we define a component and create three components, each one has its own separate state 
+
+    - PropTypes 
+        - we can defined a prop as mandatory or required string-type prop, so that it won't render empty string 
+
 c. Testing react apps 
 d. End to end testing

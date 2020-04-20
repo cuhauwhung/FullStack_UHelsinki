@@ -17,7 +17,7 @@ blogRouter.get('/', async (req, res) => {
   // Blog
   //   .find({})
   //   .then(blogs => {
-  //     response.json(blogs)
+  //     res.json(blogs)
   //   })
 
 })
@@ -37,7 +37,7 @@ blogRouter.post('/', async (req, res) => {
     const decodedToken = jwt.verify(req.token, process.env.SECRET)
   
     if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token missing or invalid' })
+      return res.status(401).json({ error: 'token missing or invalid' })
     }
 
     const user = await User.findById(body.userId)
@@ -65,31 +65,36 @@ blogRouter.post('/', async (req, res) => {
   }
 })
 
-blogRouter.delete('/:id', async (request, response) => {
-
-  const token = request.token
-  const decodedToken = jwt.verify(token, config.SECRET)
-  if (!request || !decodedToken) {
-    return response.status(401).json( { error: 'token missing or invalid ' })
-  }
-
-  const blog = await Blog.findById(request.params.id)
-  if ( blog.user.toString() !== decodedToken.id.toString()) {
-    return response.status(401).json( { error: 'permission denied ' })
-  }
-
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
-
-})
-
 blogRouter.put('/:id', async (req, res) => {
 
-  const id = req.params.id;
-  const blog = req.body;
+  const id = req.params.id
+  const blog = req.body
 
   await Blog.findByIdAndUpdate(id, blog)
   res.status(204).end()
+
 })
+
+
+blogRouter.delete('/:id', async (req, res) => {
+
+  const id = req.params.id
+  const token = req.token
+
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!req || !decodedToken) {
+    return res.status(401).json( { error: 'token missing or invalid ' })
+  }
+
+  const blog = await Blog.findById(req.params.id)
+  if ( blog.user.toString() !== decodedToken.id.toString()) {
+    return res.status(401).json( { error: 'permission denied ' })
+  }
+
+  await Blog.findByIdAndRemove(id)
+  res.status(204).end()
+
+})
+
 
 module.exports = blogRouter

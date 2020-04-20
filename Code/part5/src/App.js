@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
 import UserInfo from './components/UserInfo'
-import blogService from './services/blogs'
-import loginService from './services/login'
+import blogService from './services/blogService'
+import loginService from './services/loginService'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
-
+import Togglable from './components/Togglable'
+import Utils from './Utils/utils'
 
 const App = () => {
 
+  const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setURL] = useState('')
+  const blogFormRef = React.createRef()
 
   useEffect(() => {
     blogService
       .getAll()
       .then(initialBlogs => {
-        setBlogs(initialBlogs)
+        setBlogs(Utils.sortBlogs(initialBlogs))
       })
   }, [])
 
@@ -39,47 +35,36 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (event) => {
-    
-    event.preventDefault()
+  const createBlog = (blogObject) => {
+
     try {
 
-      const blogObject = {
-        title: title,
-        author: author,
-        url: url,
-        userId: user.userId,
-        id: blogs.length + 1
-      }
-  
+      blogFormRef.current.toggleVisibility()
       blogService
         .create(blogObject)
         .then(returnedBlog => {
           setBlogs(blogs.concat(returnedBlog))
-          setTitle('')
-          setAuthor('')
-          setURL('')
         })
-      
-        setSuccessMessage('Success Adding Blog')
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 5000)
+
+      setSuccessMessage('Success Adding Blog')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
 
     } catch (exception) {
+
       setErrorMessage('Error Adding Blog')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+
     }
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (userObject) => {
+
     try {
-      const user = await loginService.login({
-        username, password,
-      })
+      const user = await loginService.login(userObject)
 
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
@@ -87,8 +72,6 @@ const App = () => {
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
 
     } catch (exception) {
       setErrorMessage('Wrong credentials')
@@ -101,8 +84,32 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-    setUsername('')
-    setPassword('')
+
+  }
+
+  const handleLike = (blogObject) => {
+
+    const modifiedBlogObject = {
+      title: blogObject.title,
+      author: blogObject.author,
+      url: blogObject.url,
+      likes: blogObject.likes + 1,
+      user: blogObject.user.id,
+      id: blogObject.id
+    }
+
+    const updatedBlogs = blogs.filter(blog => blog.id !== blogObject.id)
+    blogService.update(modifiedBlogObject)
+    setBlogs(Utils.sortBlogs(updatedBlogs.concat(blogObject)))
+  }
+
+  const handleRemove = (blogObject) => {
+
+    if (window.confirm(`You're about to delete ${blogObject.title}`)) {
+      const updatedBlogs = blogs.filter(blog => blog.id !== blogObject.id)
+      blogService.deleteBlog(blogObject)
+      setBlogs(Utils.sortBlogs(updatedBlogs))
+    }
   }
 
   return (
@@ -111,26 +118,24 @@ const App = () => {
       {user === null ?
         <div>
           <h1>Login to application</h1>
-          <Notification message={successMessage} msg_type={"success"}/>
-          <Notification message={errorMessage} msg_type={"error"}/>
-          <LoginForm
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
+          <Notification message={successMessage} msg_type={'success'} />
+          <Notification message={errorMessage} msg_type={'error'} />
+          <LoginForm handleLogin={handleLogin}
           />
         </div>
         :
         <div>
           <h1>Blogs</h1>
-          <Notification message={successMessage} msg_type={"success"}/>
-          <Notification message={errorMessage} msg_type={"error"}/>
+          <Notification message={successMessage} msg_type={'success'} />
+          <Notification message={errorMessage} msg_type={'error'} />
           <UserInfo user={user} handleLogout={handleLogout} />
           <h1>Create new</h1>
-          
-          <BlogForm title={title} author={author} url={url} setTitle={setTitle} setAuthor={setAuthor} setURL={setURL} addBlog={addBlog} /> 
-          <Blogs blogs={blogs} />
+
+          <Togglable buttonLabel="create" ref={blogFormRef}>
+            <BlogForm user={user} blogs={blogs} createBlog={createBlog} />
+          </Togglable>
+
+          <Blogs blogs={blogs} handleLike={handleLike} handleRemove={handleRemove}/>
         </div>
 
       }
