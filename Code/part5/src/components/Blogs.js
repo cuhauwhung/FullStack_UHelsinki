@@ -26,14 +26,14 @@ const BlogExtended = ({ blog, handleLike, handleRemove }) => {
   }
 
   return (
-    <div>
+    <>
       {blog.url}
       <br></br>
-      {blog.likes} <button onClick ={addLike}> like </button>
+      {blog.likes} <button onClick={addLike}> like </button>
       <br></br>
       {blog.author}
       <button onClick={removeBlog}> remove </button>
-    </div>
+    </>
   )
 }
 
@@ -56,10 +56,12 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author} {' '}
-      <button onClick={toggleIsExtended}> {isExtended? 'hide' : 'show'} </button>
-      <div style={showWhenVisible}>
-        <BlogExtended blog={blog} handleLike={handleLike} handleRemove={handleRemove}/>
+      <div className="blogTitle" >
+        {blog.title} {blog.author} {' '}
+      </div>
+      <div className="blogDetails" style={showWhenVisible}>
+        <button onClick={toggleIsExtended}> {isExtended ? 'hide' : 'show'} </button>
+        <BlogExtended blog={blog} handleLike={handleLike} handleRemove={handleRemove} />
       </div>
     </div>
   )
@@ -70,11 +72,11 @@ const Blogs = ({ blogs, handleLike, handleRemove }) => {
   return (
     <div>
       <br></br>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemove={handleRemove}/>
+      {blogs.map((blog, i) =>
+        <Blog key={i} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />
       )}
     </div>
   )
 }
 
-export default { Blogs }
+export default Blogs

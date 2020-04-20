@@ -46,7 +46,7 @@ const App = () => {
           setBlogs(blogs.concat(returnedBlog))
         })
 
-      setSuccessMessage('Success Adding Blog')
+      setSuccessMessage('Successfully Added New Blog')
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
@@ -70,6 +70,7 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
 
+      console.log(user)
       blogService.setToken(user.token)
       setUser(user)
 
@@ -135,7 +136,7 @@ const App = () => {
             <BlogForm user={user} blogs={blogs} createBlog={createBlog} />
           </Togglable>
 
-          <Blogs blogs={blogs} handleLike={handleLike} handleRemove={handleRemove}/>
+          <Blogs blogs={blogs} handleLike={handleLike} handleRemove={handleRemove} />
         </div>
 
       }

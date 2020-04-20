@@ -62,4 +62,59 @@ b. props.children and proptypes
         - we can defined a prop as mandatory or required string-type prop, so that it won't render empty string 
 
 c. Testing react apps 
+    - use jest and react-testing-library to help with testing react apps 
+    - will write the rendering the component for tests in the same directory as the tests themselves 
+
+    - rendering the component for tests 
+        - the test renders the component with the render method provided by the react-testing-library
+            - normal react components are rendered to the DOM., but the render method renders the components in a format that is suitable for tests without rendering them to the DOM 
+            - render return object with several properties:
+                - container: contains all of the HTML rendered by the component 
+                -
+
+    - running tests:
+        - create-react-app configures tests otb e run in watch mode by default, which means that the npm test command will not exit once the tests have finished, and will instead wait for changes to be made to the code 
+        - if we want to run tests "normally" then we would use the CI=true npm test command 
+    
+    - test file location 
+        - two different conventions for the test file's location:
+            - in the same directory as the component 
+            - in its own separate "test" directory 
+    
+    - searching for content in a component 
+        1) uses method toHaveContent to search for a matching text from the entire HTML code rendered by the component 
+        2) uses the getByText method of the object returned by he render method. Method returns the element that contains the given text 
+        3) search for specific element that is rendered by the component with the query selector method that receives a CSS selector as its parameter 
+            - last two methods use the methods getByText and querySElector to find an element matching some condition from the rendered component 
+    
+    - Debugging tests 
+        - object returned by the render method has a debug method that can be used to print the HTML rendered by the component to the console 
+        - we can also search for a smaller part of the component and print its HTML code 
+            - use the prettyDOM method that can be imported from the @testing-library/dom package that is automatically installed with react testing library
+            - we used the selector to find the li element inside of the component and printed its HTML to the console 
+            - console.log(prettyDOM(li))
+
+    - click buttons in tests 
+        - Note component also makes sure that when the button associated with the note is pressed, the toggleImportance event handler function gets called 
+        - event handler can be defined as a mock function 
+        - test finds the button based on the text from the rendered component and clicks the element 
+            - clicking happens with the fireEvent method 
+        - Mock objects and functions are commonly used stub components in testing that are used for replacing dependencies of the components being tested
+            - mocks make it possible to return hard-coded responses, and to verify the number of times the mock functions are called and with what parameters 
+
+    - tests for the Togglable component 
+        - querySelector returns the first matching button
+    
+    - testing the forms 
+        - we can simulate text input with fireEvent
+
+            fireEvent.change(input, { 
+                target: {value: 'testing of forms could be easier'}
+            })
+
+            fireEvent.submit(form)
+
+    - find out coverage of our tests by 
+        - CI=true npm test -- --coverage
+
 d. End to end testing
