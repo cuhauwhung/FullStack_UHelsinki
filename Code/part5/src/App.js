@@ -49,14 +49,14 @@ const App = () => {
       setSuccessMessage('Successfully Added New Blog')
       setTimeout(() => {
         setSuccessMessage(null)
-      }, 5000)
+      }, 10000)
 
     } catch (exception) {
 
       setErrorMessage('Error Adding Blog')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)
+      }, 10000)
 
     }
   }
@@ -70,12 +70,11 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
 
-      console.log(user)
       blogService.setToken(user.token)
       setUser(user)
 
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setErrorMessage('Wrong Credentials')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -85,7 +84,6 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-
   }
 
   const handleLike = (blogObject) => {

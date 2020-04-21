@@ -27,11 +27,17 @@ const BlogExtended = ({ blog, handleLike, handleRemove }) => {
 
   return (
     <>
-      {blog.url}
+      <span id='blogUrl'>
+        {blog.url}
+      </span>
       <br></br>
-      {blog.likes} <button onClick={addLike}> like </button>
+      <span id='blogLikes'>
+        {blog.likes} <button onClick={addLike}> like </button>
+      </span>
       <br></br>
-      {blog.author}
+      <span id='blogAuthor'>
+        {blog.author}
+      </span>
       <button onClick={removeBlog}> remove </button>
     </>
   )
@@ -56,11 +62,11 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
 
   return (
     <div style={blogStyle}>
-      <div className="blogTitle" >
+      <div id="blogTitle" className="blogTitle" >
         {blog.title} {blog.author} {' '}
+        <button onClick={toggleIsExtended}>{isExtended ? 'hide' : 'show'}</button>
       </div>
-      <div className="blogDetails" style={showWhenVisible}>
-        <button onClick={toggleIsExtended}> {isExtended ? 'hide' : 'show'} </button>
+      <div id="blogDetails" className="blogDetails" style={showWhenVisible}>
         <BlogExtended blog={blog} handleLike={handleLike} handleRemove={handleRemove} />
       </div>
     </div>
@@ -70,7 +76,7 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
 const Blogs = ({ blogs, handleLike, handleRemove }) => {
 
   return (
-    <div>
+    <div id="blogs">
       <br></br>
       {blogs.map((blog, i) =>
         <Blog key={i} blog={blog} handleLike={handleLike} handleRemove={handleRemove} />

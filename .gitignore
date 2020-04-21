@@ -5,3 +5,5 @@ tags
 static/
 .env 
 build/
+videos/
+screenshots/

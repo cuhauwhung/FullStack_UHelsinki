@@ -118,3 +118,60 @@ c. Testing react apps
         - CI=true npm test -- --coverage
 
 d. End to end testing
+    - intro 
+        - we have tested the backend as a whole on the API using integration tests and tested frontend using unit tests 
+            - integration test: individual software modules are combined and tested as a group
+            - unit test: individual units of source code, sets of one or more software modules together with associated control data, usage procedures, and operating procedures, are tested to determine whether they are fit for use 
+        - end to end (E2E) tests: test the system as a whole 
+            - Selenium can be used with any browser
+            - headless browsers, which are browsers with no GUI 
+            - potentially most useful, because they test the system through the same interface as real users
+            - more challenging than unit or integration tests 
+            - slow and flaky (some tests might pass one time and fail another, even if the code does not change at all)
+
+    - Cypress
+        - easy to use and requires less hassle and headache than Selenium 
+        - tests are run completely within the browser. Other libraries run the tests in a Node-process, which is connected to the browser through an API 
+        - when we first run Cypress, it creates a cypres directory. It contains a integrations subdirectory, where we will place our tests. Cypress creates a bunch of example test for us, but we will delete all those and make our own test in file 
+        - structure of tests: 
+            - describe blocks to group different test cases like Jest
+            - tests have been defined with the it method 
+            - Cypress borrowed these parts from Mocha testing library it uses under the hood
+        - cy.visit and cy.contains are Cypress commands 
+        - Mocha recommends that arrow functions are not used, because they might cause some issues in certain situations 
+        - tests cases are defined with the it() method 
+        - ** Cypress uses identifiers that are not classes but ids **
+    
+    - writing to a form 
+        - we can click buttons with the cy.click command
+        - we can also use beforeEach() to be performed before each test 
+        - cy.get() allows for searching elements by CSS selectors 
+        - use cy.type() to type into input fields in the page 
+        - we should use CSS classes to make unique identifiers for each input 
+        - cypress runs the tests in the order they are in the code
+
+    - controlling the state of the database 
+        - server database should be the same each time we run the tests, so or tests can be reliably and easily repeatable 
+        - E2E test is that they do not have access to the database 
+            - create API endpoints to the backend for the test. 
+            - empty the database using these endpoints
+        - use cy.request() to send HTTP requests to the backend 
+        - 
+    
+    - failed login test 
+        - use cy.contains() to ensure that the application prints an error message 
+        - we can ensure that the error message is rendered to the correct component, or the component with the CSS class error 
+        - can also use should('have.css', ...) to ensure certain components have color / border properties 
+    
+    - bypassing the UI 
+        - should test login flow but only once
+        - Cypress recommends that we bypass the UI and do a HTTP request to the backend to log in. Logging in with a HTTP request is faster than filling a form 
+        - we can access the response to a cy.request with the then method, because cy.requests like all Cypress commands are promises 
+        - we can make custom command and store it in cypress/support/command.js
+        - we can use parent command to access the parent element of the element containing the tag to find the button from within it. Then we click the button, and check the text on it changes 
+    
+    - running and debugging the tests 
+        - when cypress runs a test, it adds each cy command to an execution queue. When the code of the test method has been executed, CYpress will execute each command in the queue one by one
+        - Cypress commands always return undefined, so button.click() in the above code would cause an error. An attempt to start the debugger would not stop the code between executing the commands 
+        - Cypress commands are like promises, so we have to use then to access them 
+        - we can run without Cypress without GUI and using CLI 

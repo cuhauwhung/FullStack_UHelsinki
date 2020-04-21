@@ -2,10 +2,7 @@ import React from 'react'
 
 const Notification = ({ message, msg_type }) => {
 
-  if (message === null) {
-    return null
-  }
-
+  if (message === null) { return null }
   if (msg_type === 'error') {
     return (
       <div className='error'>

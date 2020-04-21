@@ -16,7 +16,7 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 
   await User.deleteMany({})
-  userObject = new User(helper.initialUsers[0])
+  const userObject = new User(helper.initialUsers[0])
   await userObject.save()
 })
 
