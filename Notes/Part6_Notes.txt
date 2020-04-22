@@ -50,5 +50,18 @@ a. Flux-architecture and Redux
         - can essentially group "event-handlers" and components together and all access the "centralized" store from these various sub-components. A little like OOD 
 
 b. Many reducers 
+    - store with complex state 
+        - we can use radio buttons to perform filtering 
+            - they are all treated as one button group as only option can be selected 
+            - we c an store the filter functionality in the redux store in addition to the notes themselves 
+
+    - combined reducers 
+        - we can create reducer by combining two existing reducers with the combineReducers function 
+        - state of the store reducer are independent from one another 
+        - combined reducer works in such a way that every action gets handled in every part of the combined reducer 
+    
+    - finishing the filters 
+        - change the rendering of the application and hooking up the store to the application in the index.js file 
+
 c. Communicating with server in a redux application
 d. Connect 
