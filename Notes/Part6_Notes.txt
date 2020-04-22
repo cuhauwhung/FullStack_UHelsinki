@@ -1,0 +1,54 @@
+------
+Part 6
+------
+
+a. Flux-architecture and Redux
+    - intro we keep states at the root component of the application, but we should use flux to handle states 
+
+    - flux architecture 
+        - makes state management easier 
+        - state is separated completely from the React-components into its own stores, state in the store is not changed directly, but with different actions 
+            - when an action changes the state of the store, views are rerendered 
+        - whole state of the application is stored into one JavaScript-object in the store
+        - state of the store is changed with actions. Actions are objects, which have at least a field determining the type of the action
+        - if there is data involved with the action, other fields can be declared as needed 
+
+        - first parameter is the state in the store. Reducer returns a new state based on the actions type 
+        - should use switch instead of elifs in a reducer 
+        - Reducer is never supposed to be called directly from the applications code. Reducer is only given as a parameter to the createStore-function which creates the store
+            - store now uses teh reducer to handle actions, which are dispatched to the store with the dispatch method 
+
+        - subscribe: use to create callback functions the store calls when its state is changed 
+        - App renders the value of the counter by asking it from the store with the method store.getState()
+
+    - pure functions, immutable
+        - Redux reducers must be pure functions: should return the same response when called with the same parameters
+        - if there is a change in the state, the old object is not changed, but it is replaced with a new, changed object. Old array is replaced with the new 
+
+        - use deep-freeze library to ensure that the reducer has been correctly defined as a immutable function 
+        - deepfreeze command ensures that the reducer does not change the state of the store given to it as a parameter 
+        - when we want to alter a field in an object, we should replace it with its slightly altered copy
+
+        run test with CI=true npm test
+
+    - Uncontrolled form 
+        - not bound the state of the form fields to the state of the App component 
+        - form element becomes controlled if you set its value via a prop
+
+    - action creators 
+        - not necessary for React-components to know the Redux action types and forms, so we can separate creating actions into their own functions 
+    
+    - Forwarding Redux-Store to various components 
+        - use react-redux library to allow the App access to store in different directories 
+            - allows a component, composed of many smaller components, to access the store 
+        - useDispatch hook provides any React component access to the dispatch function of the redux-store defined in index.js 
+        - useSelector hook allows the component to access the notes stored in the store 
+
+    - More components 
+        - event handler has been moved away from the App to a child component 
+        - We no longer have to pass in eventHandlers from the App into components 
+        - can essentially group "event-handlers" and components together and all access the "centralized" store from these various sub-components. A little like OOD 
+
+b. Many reducers 
+c. Communicating with server in a redux application
+d. Connect 
