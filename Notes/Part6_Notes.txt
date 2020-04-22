@@ -64,4 +64,36 @@ b. Many reducers
         - change the rendering of the application and hooking up the store to the application in the index.js file 
 
 c. Communicating with server in a redux application
+    - intro 
+        - we can initialize all objects by dispatching 'new_object' one by one 
+        - also use axios to communicate with server 
+
+    - async actions and redux thunk 
+        - method is OK, but having communication with server within components is undesirable 
+        - use redux-thunk library which enables us to create async actions 
+            - redux-thunk acts as a middleware
+            - makes it possible to define action creators so that they return a function having the dispatch method of redux store as its parameter 
+                - one can make async action creators 
+
+        - E.g.:
+            originally we would have these two in the component itself 
+                const newAnecdote = await anecdoteService.createNew(content)
+                dispatch(createAnecdote(newAnecdote))
+
+            but after modifying createAnecdote() in the reducer into:
+                export const createAnecdote = (content) => {
+                return async dispatch => {
+                    const newAnecdote = await anecdoteService.createNew(content)
+                    dispatch({
+                    type: 'NEW_ANECDOTE',
+                    data: newAnecdote
+                    })
+                }
+                }
+
+            we are able to get this in the component:
+                dispatch(createAnecdote(content))
+
+            - essentially moving the async operations / communication within the server into the reducer as well 
+
 d. Connect 

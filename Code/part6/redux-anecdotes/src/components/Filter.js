@@ -1,5 +1,5 @@
 import React from 'react'
-import { setFilter } from '../reducers/filterReducer'
+import { setFilter } from '../reducers/FilterReducer'
 import { useDispatch } from 'react-redux'
 
 const Filter = () => {
