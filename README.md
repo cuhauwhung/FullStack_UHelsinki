@@ -27,7 +27,7 @@ Course covers:
   * Testing the backend 
   * User administration
   * Token authentication 
-- [ ] Testing React Apps 
+- [x] Testing React Apps 
   * Login in frontend
   * Props.children and proptypes
   * Testing react apps 
