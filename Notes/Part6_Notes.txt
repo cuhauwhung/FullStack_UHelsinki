@@ -97,3 +97,9 @@ c. Communicating with server in a redux application
             - essentially moving the async operations / communication within the server into the reducer as well 
 
 d. Connect 
+    - using the connect-function to share the redux store to components
+        - modify the Notes component so that instead of using the hook-api (the useDispatch and useSelector functions) it uses the connect function. We have to modify the following parts of the component 
+    - connect function can be used for transforming 'regular' React components so that the state of the Redux store can be 'mapped' into the component's props 
+    - second parameter of the connect function can be used for defining mapDispatchToProp which is a group of action creator functions passed to the connected component as props
+        - the component can directly dispatch the action defined by the ... action creator by calling the function through its props 
+        - there is no need to call the dispatch function function separately since connect has already modified the toggleImportanceOf action creator into a form that contains the dispatch 

@@ -44,7 +44,11 @@ export const createAnecdote = (content) => {
 export const incrementVotes = (id) => {
   return async (dispatch, getState) => {
     const anecdotes = getState().anecdotes
+    console.log(anecdotes)
+
     const anecdoteToChange = anecdotes.find(n => n.id === id)
+    console.log(anecdoteToChange)
+    
     const changedAnecdote = {
       ...anecdoteToChange,
       votes: anecdoteToChange.votes + 1
