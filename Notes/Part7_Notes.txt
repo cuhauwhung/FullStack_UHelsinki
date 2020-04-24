@@ -1,0 +1,61 @@
+------
+Part 7
+------
+a. React-router
+    - application navigation structure 
+        - old school web app, we would make an HTTP GEt request to the server and re-rending the page, but in single web apps, we are always on the same page 
+        - we can use switch / if-elses and have components within these conditionals to render, but not optimal, because they'll all appear under the same url 
+        - use react router library which provides method for managing navigation in React application 
+        - normally browser loads a new page when the URl in the address bar changes. However, with the help of the HTML5 history API BrowserRouter enables us to use the URL in the address bar of the browser for internal "routing" in a React-application. 
+            - inside the router, we define links that modify the address bar with the help of the link component 
+            - creates a link in the application with the text notes, which when clicked changes the URL in the address bar to notes
+            - components rendered bas on the URL of the browser are defined with the help of the component Route 
+    
+    - parameterized route 
+        - clicking hte name of a note whose id is 3 would trigger an event that changes the address of the browser into notes/3
+        - define route rendering a specific note "express style" by marking the parameter with a colon :id 
+            - < Route path="/notes/:id" >
+        
+    - useHistory
+        - if a user is logged in, info about a logged in user is saved to the user field of the state of the App component 
+        - option to navigate to the Login-View rendered conditionally in the menu 
+        - useHistory function allows the component to access a history object, which cam be used to modify the browser's url programmatically 
+            - when user logs in, we call the method of the history object; history.push('/'), which causes the browser's url to change to / and the application renders to the corresponding component Home
+        - useParams and useHistory are both hook-functions
+    
+    - redirect 
+        - we can redirect page to login view if user is not logged in, instead of going to the home page 
+    
+    - parameterized route revisited 
+        - note component receives all of the notes, even though it only displays the one whose id matches the url parameter
+            - we can overcome this by using react-router's useRouteMatch hook to figure out the id of the note to be displayed in the App component 
+
+b. Custom hooks
+    - Hooks 
+        - most popular: useState, useEffect 
+        - useImperativeHandle-hook which allows for components to provide their functions to other components 
+        - useSelector and useDispatch hooks from the react-redux library to share our redux-store and dispatch function to our components 
+    
+    - Custom hooks 
+        - building your own hooks lets you extract component logic into reusable functions 
+        - custom hooks are regular JS functions that can use any other hooks, as long as they adhere to the rules of hooks 
+        - name of custom hooks must start with the word use 
+        - conceptually the same as using OOD 
+            - there are methods inside each custom hook that modify the values of the hooks 
+            - all the hooks are grouped together as variables 
+    
+    - spread attributes 
+        - if an object has all the attributes that the input element expect to receive as props, we can pass the props to the elemtn using the spread syntax in the following way: <input {...name} />
+            - E.g.:
+                const person = {
+                    firstName: 'Dummy',
+                    lastName: 'User'
+                }
+                
+            - < Greeting firstName="Dummy" lastName="user" />
+            - < Greeting {... person} />
+        
+
+c. More about styles 
+d. Webpack
+e. Class components, Miscellaneous 
