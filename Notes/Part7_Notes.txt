@@ -51,10 +51,9 @@ b. Custom hooks
                     firstName: 'Dummy',
                     lastName: 'User'
                 }
-                
+
             - < Greeting firstName="Dummy" lastName="user" />
             - < Greeting {... person} />
-        
 
 c. More about styles 
 d. Webpack
