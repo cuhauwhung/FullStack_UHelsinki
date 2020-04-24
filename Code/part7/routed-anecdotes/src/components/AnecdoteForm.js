@@ -1,42 +1,51 @@
 import React, { useState } from 'react'
+import { useField } from '../hooks/index'
 
 const AnecdoteForm = (props) => {
-    const [content, setContent] = useState('')
-    const [author, setAuthor] = useState('')
-    const [info, setInfo] = useState('')
-  
-  
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      props.addNew({
-        content,
-        author,
-        info,
-        votes: 0
-      })
-    }
-  
-    return (
-      <div>
-        <h2>create a new anecdote</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            content
-            <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
-          </div>
-          <div>
-            author
-            <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
-          </div>
-          <button>create</button>
-        </form>
-      </div>
-    )
-  
+
+  const { reset: contentReset, ...content } = useField('text')
+  const { reset: authorReset, ...author } = useField('text')
+  const { reset: infoReset, ...info } = useField('text')
+
+  const resetForm = () => {
+    contentReset()
+    authorReset()
+    infoReset()
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    props.addNew({
+      content: content.value,
+      author: author.value,
+      info: info.value,
+      votes: 0
+    })
+    resetForm()
+  }
+
+  return (
+    <div>
+      <h2>create a new anecdote</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          content
+            <input {...content} />
+        </div>
+        <div>
+          author
+            <input {...author} />
+        </div>
+        <div>
+          url for more info
+            <input {...info} />
+        </div>
+        <button>create</button>
+      </form>
+      <button onClick={resetForm}> reset </button>
+    </div>
+  )
+
+}
 
 export default AnecdoteForm
