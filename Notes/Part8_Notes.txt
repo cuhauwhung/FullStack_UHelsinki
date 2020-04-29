@@ -1,0 +1,197 @@
+------
+Part 8
+------
+a. GraphQL server
+    - Intro 
+        - REST has long been the most prevalent way to implement the interfaces servers offer for browsers
+        - REST is resource based, every resource has its own address which identifies it, and then the server responds with the requested data 
+        - In GraphQL, the code on the browser forms a query describing the data wanted, and sends it to the API with an HTTP POST request
+            - Unlike REST, all GraphQL queries are sent to the same address, and their type is POST 
+        
+    - Schemas 
+        - heart of all GraphQL applications is a schema, which describes the data sent between the client and the server 
+
+        E.g.:
+            type Person {
+            name: String!
+            phone: String
+            street: String!
+            city: String!
+            id: ID! 
+            }
+
+            type Query {
+            personCount: Int!
+            allPersons: [Person!]!
+            findPerson(name: String!): Person
+            }
+
+        - Schema describe two types.
+            1) Person determines that persons have five fields (4 of the fields are strings); ! is to show required property
+            2) Query. Practically, every graphQL schema describes a Query, which tells what kind of queries can be made to the API 
+                - describes 3 queries: personCount returns an integer, allPersons returns a list of Person objects, and findPerson is given a string parameter and it returns a Person object 
+        
+        - schema describes what queries that the client can send to the server, what kind of parameters the queries can have, and what kind of data the queries return 
+        - Query examples: 
+                query {
+                personCount
+                }
+
+                query {
+                allPersons{
+                    name
+                    city
+                    street
+                }
+                }
+
+                query {
+                findPerson(name: "Donald Trump") {
+                    phone 
+                }
+                }
+
+            - there is a direct link between a graphQL query and the returned JSON object 
+            - one can think that the query describes what kind of data it wants as a response 
+                - with REST, the URL and the type of the request have nothing to do with the form of the return data 
+                - GraphQL query describes only the data moving between a server and the client 
+                - On the server, the data can be organized and saved any way we like 
+                - GraphQL doesn't care about the underlying database, it can be relational, document, or anything
+
+        - Apollo server 
+            - Implement GraphQL server with the Apollo-server library 
+            - E.g.: 
+
+                const typeDefs = gql`
+                    type Person {
+                        name: String!
+                        phone: String
+                        street: String!
+                        city: String! 
+                        id: ID!
+                    }
+
+                    type Query {
+                        personCount: Int!
+                        allPersons: [Person!]!
+                        findPerson(name: String!): Person
+                    }
+                `
+
+                const resolvers = {
+                Query: {
+                    personCount: () => persons.length,
+                    allPersons: () => persons,
+                    findPerson: (root, args) =>
+                    persons.find(p => p.name === args.name)
+                }
+                }
+
+                const server = new ApolloServer({
+                typeDefs,
+                resolvers,
+                })
+
+                the first parameter, typeDefs, contains the graphQL server and the resolvers contains the actual code that defines how GraphQL queries are responded to 
+
+        - GraphQL playground 
+            - helpful for developers to debug and make sure application is running correctly 
+        
+        - Parameters of a resolver 
+            - GraphQL server must define resolvers for each field of each type in the schema. We have so far only defined resolvers for fields of the type QUery 
+            - when we don't define resolvers, Apollo will defined default resolvers for them 
+            - "root" is like "this" or "self" in other languages
+            - We could do hard code the following to the resolvers of the street and city fields of the type Person 
+
+                Person: {
+                    street: (root) => "Manhattan",
+                    city: (root) => "New York"
+                }
+
+                // normal 
+                Person: {
+                    street: (root) => root.street 
+                    city: (root) => root.city
+                }
+
+        - Object within an object 
+            - we can have objects within objects 
+                - address object can within a person object 
+                - address will us the default resolvers to return data
+
+        - Mutations 
+            - operations that cause a change 
+            - E.g.:
+
+                type Mutation {
+                addPerson(
+                    name: String!
+                    phone: String
+                    street: String!
+                    city: String!
+                ): Person
+                }
+            
+                - mutation is given details of the person as a parameters 
+                - generating id should be given to the server 
+        
+        - Error handling
+            - error handling cam be automatically done with GraphQL validation 
+            - not everything is automated, so we have to add error handling mechanisms 
+
+        - Enum 
+            - useful for filtering 
+            - filter can have two possible values YES or NO
+            - have to modify the resolver 
+        
+        - Changing a phone number 
+            - we can modify resolver to perform our intended tasks 
+
+        - More on queries 
+            - we can combine multiple fields of type Query or "separate queries" into one query 
+            - combined query can also use the same query multiple times 
+
+b. React and GraphQL
+    - Intro 
+        - we can use GraphQL with HTTP POST - requests 
+        - sends request to http://localhost:4000/graphql
+        - we could use axios, but better to use higher order libraries such as Relay or Apollo Client 
+
+    - Apollo client 
+        - application communicates with the GraphQL server using the client object, which sends the query to the server 
+    
+    - Making queries 
+        - useQuery hook is the dominant practice 
+            - makes the query it receives as a parameter and returns an object with multiple fields 
+    
+    - Named queries and variables 
+        - When we do queries programmatically, we must be able to give them parameters dynamically
+        - GraphQL variables are well suited for this; to be able to use variables, wem ust also name our queries 
+        - the name of the query is findPersonByName and it is given a string $nameToSearch as a parameter 
+        
+        - useQuery hook is good when the query is done when the component is rendered. However when we want to only query as required, we have use the useLazyQuery method
+        - 
+
+    - Cache
+        - Apollo client saves the responses of queries to cache. To optimize performance of the response to a query is already in the cache, the query is not sent to the server at all 
+        - Apollo client devtools to Chrome can be used to view the state of the cache 
+
+    - Doing mutations 
+        - the hook function useMutation provides the functionality for making mutations 
+        - the hook function returns an array, first element of which contains the result of the mutation 
+        - query variables receive values when the query is made 
+
+    - Updating the cache 
+        - we can make the query for all persons poll the server, or make the query repeatedly; this is bad because there will be alot of pointless web traffic 
+        - easy way to keep cache in sync is to use the useMutation hook's refetchQueries parameter to define, that the query fetching all persons is done again whenever a new person is created 
+            - there is no extra web traffic, but updates to the server are not immediately visible to other users 
+        
+    - update phone number 
+        - solution is almost identical to adding new person. We use mutations to 
+         
+
+
+
+c. Database and user administration
+d. Login and updating the cache 
+e. Fragments and subscriptions
