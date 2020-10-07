@@ -189,9 +189,6 @@ b. React and GraphQL
     - update phone number 
         - solution is almost identical to adding new person. We use mutations to 
          
-
-
-
 c. Database and user administration
 d. Login and updating the cache 
 e. Fragments and subscriptions

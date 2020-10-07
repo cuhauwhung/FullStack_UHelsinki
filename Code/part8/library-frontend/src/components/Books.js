@@ -5,6 +5,8 @@ const Books = ({show, books}) => {
     return null
   }
 
+  books = books.loading ?  [] : books.data.allBooks
+
   return (
     <div>
       <h2>books</h2>

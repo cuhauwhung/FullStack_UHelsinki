@@ -85,10 +85,10 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors show={page === 'authors'} authors={authorsResult.data.allAuthors} />
-      <BirthdayForm show={page === 'authors'} authors={authorsResult.data.allAuthors}editBirthday={editBirthday}/>
+      <Authors show={page === 'authors'} authors={authorsResult} />
+      <BirthdayForm show={page === 'authors'} authors={authorsResult} editBirthday={editBirthday}/>
 
-      <Books show={page === 'books'} books={booksResult.data.allBooks} />
+      <Books show={page === 'books'} books={booksResult} />
 
       <NewBook show={page === 'add'} addBook={addBook} />
 

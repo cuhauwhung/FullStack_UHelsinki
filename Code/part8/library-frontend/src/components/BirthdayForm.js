@@ -6,6 +6,7 @@ const BirthdayForm = ({ show, authors, editBirthday }) => {
     const [name, setName] = useState('')
     const [birthday, setBirthday] = useState('')
 
+    authors = authors.loading ?  [] : authors.data.allAuthors
 
     const options = authors.map(author => {
         return {

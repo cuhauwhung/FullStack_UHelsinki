@@ -7,6 +7,8 @@ const Authors = ({ show, authors }) => {
     return null
   }
 
+  authors = authors.loading ?  [] : authors.data.allAuthors
+
   return (
     <div>
       <h2>authors</h2>
