@@ -32,8 +32,13 @@ Course covers:
   * Props.children and proptypes
   * Testing react apps 
   * End-to-end testing
-- [ ] State Management with Redux 
-- [ ] React Router, Custom Hooks, Styling App with CSS and Webpack
+- [x] State Management with Redux 
+  * Flux architecture and redux
+  * Many reducers
+  * Communicating with server in redux
+  * connect
+- [x] React Router, Custom Hooks, Styling App with CSS and Webpack
+  * React router
+  * Custom hooks
 - [ ] GraphQL 
-- [ ] Typsecript
 
